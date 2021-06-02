@@ -1,12 +1,3 @@
-# Platdot-deploy
-
-## Config Builder
-
-This is a simple CLI tool to help automate deployment of new relayers.
-
-An input JSON config looks like this:
-
-```json
 {
   "relayerThreshold": "3",
   "ethchains": [
@@ -75,21 +66,3 @@ An input JSON config looks like this:
     }
   ]
 }
-```
-
-This example would result in five configs, one for each relayer, with each containing the three provided chains.
-
-## Build/Install
-
-```
-$ make build
-```
-OR
-```
-$ make install
-```
-
-## Usage
-```
-$ cfgBuilder <input-file> <output-path>
-```
