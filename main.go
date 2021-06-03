@@ -30,7 +30,6 @@ func run(ctx *cli.Context) error {
 		return errors.New("must provide path")
 	}
 
-
 	// Read in the config
 	cfg, err := ParseDeployConfig(path)
 	if err != nil {

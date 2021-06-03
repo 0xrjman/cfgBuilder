@@ -45,6 +45,9 @@ type Opts struct {
 	Erc20Handler   string `json:"erc20Handler,omitempty"`
 	Erc721Handler  string `json:"erc721Handler,omitempty"`
 	GenericHandler string `json:"genericHandler,omitempty"`
+	/// WETH Asset
+	InternalAccount string `json:"internalAccount,omitempty"`
+	Asset  		   string `json:"asset,omitempty"`
 	GasLimit       string `json:"gasLimit,omitempty"`
 	MaxGasPrice    string `json:"maxGasPrice,omitempty"`
 	GasMultiplier  string `json:"gasMultiplier,omitempty"`
@@ -71,6 +74,9 @@ type EthChainConfig struct {
 	Erc20Handler   string   	`json:"erc20Handler"`
 	Erc721Handler  string   	`json:"erc721Handler"`
 	GenericHandler string   	`json:"genericHandler"`
+	///WETH Asset
+	InternalAccount string 		`json:"internalAccount"`
+	Asset  		   string 		`json:"asset"`
 	GasLimit       string   	`json:"gasLimit"`
 	MaxGasPrice    string   	`json:"maxGasPrice"`
 	GasMultiplier  string   	`json:"gasMultiplier"`
@@ -139,6 +145,8 @@ func constructEthChainConfig(cfg EthChainConfig, relayer string) RawChainConfig 
 			Erc20Handler:   cfg.Erc20Handler,
 			Erc721Handler:  cfg.Erc721Handler,
 			GenericHandler: cfg.GenericHandler,
+			InternalAccount: cfg.InternalAccount,
+			Asset: cfg.Asset,
 			GasLimit:       cfg.GasLimit,
 			MaxGasPrice:    cfg.MaxGasPrice,
 			GasMultiplier:  cfg.GasMultiplier,
@@ -151,6 +159,10 @@ func constructEthChainConfig(cfg EthChainConfig, relayer string) RawChainConfig 
 }
 
 func constructSubChainConfig(cfg SubChainConfig, relayer string, relayerId int, otherRelayer []string) RawChainConfig {
+	if cfg.MultiSigAddress != "" {
+		cfg.RelayerId = strconv.FormatInt(int64(relayerId+1), 10)
+	}
+
 	return RawChainConfig{
 		Name:     cfg.Name,
 		Type:     "substrate",
@@ -163,7 +175,7 @@ func constructSubChainConfig(cfg SubChainConfig, relayer string, relayerId int, 
 			MultiSigAddress: cfg.MultiSigAddress,
 			TotalRelayer: cfg.TotalRelayer,
 			MultiSigThreshold: cfg.MultiSigThreshold,
-			RelayerId:  strconv.FormatInt(int64(relayerId+1), 10),
+			RelayerId:  cfg.RelayerId,
 			ResourceId: cfg.ResourceId,
 			MaxWeight: cfg.MaxWeight,
 			DestId: cfg.DestId,
